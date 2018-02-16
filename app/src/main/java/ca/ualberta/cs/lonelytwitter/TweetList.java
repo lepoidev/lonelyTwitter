@@ -1,10 +1,12 @@
 package ca.ualberta.cs.lonelytwitter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
  * Created by lepoidev on 2/15/18.
+ *
  */
 
 public class TweetList {
@@ -18,7 +20,11 @@ public class TweetList {
 
     public void add(Tweet tweet)
     {
-        tweets.add(tweet);
+        if (this.hasTweet(tweet)) {
+            throw new IllegalArgumentException();
+        } else {
+            tweets.add(tweet);
+        }
     }
 
     public void delete(Tweet tweet)
@@ -30,4 +36,16 @@ public class TweetList {
     {
         return tweets.contains(tweet);
     }
+
+    public int getCount()
+    {
+        return tweets.size();
+    }
+    public ArrayList<Tweet> getTweets(int index)
+    {
+        Collections.sort(this.tweets, new TweetComparator());
+        return this.tweets;
+    }
+
+
 }

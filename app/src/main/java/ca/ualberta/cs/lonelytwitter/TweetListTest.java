@@ -18,18 +18,6 @@ public class TweetListTest extends ActivityInstrumentationTestCase2 {
 
 
 
-
-    public void testAddTweet()
-    {
-        TweetList tweets = new TweetList();
-
-        Tweet tweet = new NormalTweet("adding a normal Tweet");
-
-        tweets.add(tweet);
-
-        assertTrue(tweets.hasTweet(tweet));
-    }
-
     public void testHasTweet()
     {
         TweetList tweets = new TweetList();
@@ -64,5 +52,42 @@ public class TweetListTest extends ActivityInstrumentationTestCase2 {
         tweets.delete(tweet);
 
         assertFalse(tweets.hasTweet(tweet));
+    }
+
+    public void testGetTweets()
+    {
+        TweetList tweets = new TweetList();
+
+        Tweet tweet = new NormalTweet("adding a normal Tweet");
+
+        tweets.add(tweet);
+
+        Tweet tweet2 = new NormalTweet("adding a normal Tweet");
+
+        tweets.add(tweet2);
+
+        for(int i = 0; i < tweets.getCount() - 1; i++){
+            //assertTrue(tweets.get(i).getDate() <= tweets.get(i+1).getDate());
+            assertEquals(tweets.getTweet(i+1).getDate().compareTo(tweets.getTweet(i).getDate()), 1);
+        }
+    }
+
+    public void testAddTweet(){
+        TweetList tweets = new TweetList();
+
+        Tweet tweet = new NormalTweet("adding a normal Tweet");
+        tweets.add(tweet);
+        //Tweet tweet = new NormalTweet("adding a normal Tweet");
+        tweets.add(tweet);
+
+        assertTrue(tweets.hasTweet(tweet));
+    }
+
+    public void testGetCount(){
+        TweetList tweets = new TweetList();
+        Tweet tweet = new NormalTweet("adding a normal Tweet");
+        tweets.add(tweet);
+
+        assertEquals(tweets.getCount(), 1);
     }
 }
