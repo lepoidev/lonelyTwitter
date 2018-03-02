@@ -25,11 +25,17 @@ import com.google.gson.reflect.TypeToken;
 
 public class LonelyTwitterActivity extends Activity {
 
+	private LonelyTwitterActivity activity = this;
+	
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
 	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
 	private ArrayAdapter<Tweet> adapter;
+	
+	public ListView getOldTweetList() {
+		return oldTweetList;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class LonelyTwitterActivity extends Activity {
 
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
+		Button clearButton = (Button) findViewById(R.id.clear);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
 		saveButton.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +56,27 @@ public class LonelyTwitterActivity extends Activity {
 				tweetList.add(newTweet);
 				adapter.notifyDataSetChanged();
 				saveInFile();
+			}
+		});
+		
+		clearButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				setResult(RESULT_OK);
+				tweetList.clear();
+				adapter.notifyDataSetChanged();
+				saveInFile();
+			}
+		});
+		
+		oldTweetList.setOnItemClickListener(new AdapterView.OnCItemlickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				Intent intent = new Intent(activity, EditTweetActivity.class);
+				String message = oldTweetsList.getItemAtPosition(position).getMessage();
+				intent.putExtra(EXTRA_MESSAGE, message);
+				startActivity(Intent);
 			}
 		});
 	}
